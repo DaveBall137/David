@@ -1,7 +1,7 @@
-  int FR = 50; //setting pin 13 to the Back Right sensor
-  int FL = 51; //setting pin 12 to the Back Left sensor
-  int BR = 52; //setting pin 11 to the Front Left sensor
-  int BL = 53; //setting pin 10 to the Front Right sensor
+  int FR = 50; //setting pin 50 to the Back Right sensor
+  int FL = 51; //setting pin 51 to the Back Left sensor
+  int BR = 52; //setting pin 52 to the Front Left sensor
+  int BL = 53; //setting pin 53 to the Front Right sensor
   int ENA = 2; //Setting pin 2 as a PWM for A
   int IN1 = 49; //Setting pin 49 for the MC pin 1
   int IN2 = 48; //Setting pin 48 for the MC pin 2
