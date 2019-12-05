@@ -8,10 +8,26 @@
   int IN3 = 47; //Setting pin 47 for the MC pin 3
   int IN4 = 46; //Setting pin 46 for the MC pin 4
   int ENB = 3; //Setting pin 3 as a PWM for B
-  int carSpeed = 250; //Setting speed to 250  THIS VALUE DEFINES THE PWM OF THE SIGNAL 255 = 5V
-  int slowcarSpeed = 210; //Setting slow speed to 125 for more complex manouvers
-  //int BatteryLevel = A0; //Setting the battery level to pin 22, later this will be set by the battery monitoring
-  //int Leaving = 22;
+  int MOTORA = 235;
+  int MOTORB = 235;
+  int tachA = 10;
+  int tachB = 11;
+  int widthA;
+  int widthB;
+  int MA1;
+  int MB1;
+  int MA2;
+  int MB2;  
+  int MA3;
+  int MB3;
+  int MA4;
+  int MB4;
+  int MA5;
+  int MB5;  
+  int MA6;
+  int MB6;
+  int AVwidthA;
+  int AVwidthB;
 
   
 void setup() {
@@ -20,7 +36,6 @@ void setup() {
   pinMode(BL, INPUT);
   pinMode(FR, INPUT);
   pinMode(FL, INPUT);
-  //pinMode(BatteryLevel, INPUT);
   Serial.begin(9600);
   pinMode(IN1, OUTPUT);
   pinMode(IN2, OUTPUT);
@@ -28,16 +43,15 @@ void setup() {
   pinMode(IN4, OUTPUT);
   pinMode(ENA, OUTPUT);
   pinMode(ENB, OUTPUT);
-  //pinMode(Leaving, OUTPUT);
-  
+  pinMode(tachA,INPUT);
+  pinMode(tachB,INPUT);
 }
 
 
 void forward(){
-  analogWrite(ENA, carSpeed);
-  analogWrite(ENB, slowcarSpeed);
-  /*digitalWrite(ENA, HIGH);
-  digitalWrite(ENB,HIGH);*/
+  analogWrite(ENA, MOTORA);
+  analogWrite(ENB, MOTORB);
+  comparison();
   digitalWrite(IN1, LOW);
   digitalWrite(IN2, HIGH);
   digitalWrite(IN3, LOW);
@@ -46,10 +60,9 @@ void forward(){
 }
 
 void back() {
-  analogWrite(ENA, carSpeed);
-  analogWrite(ENB, slowcarSpeed);
-  /*digitalWrite(ENA, HIGH);
-  digitalWrite(ENB,HIGH);*/
+  analogWrite(ENA, MOTORA);
+  analogWrite(ENB, MOTORB);
+  comparison();
   digitalWrite(IN1, HIGH);
   digitalWrite(IN2, LOW);
   digitalWrite(IN3, HIGH);
@@ -58,10 +71,9 @@ void back() {
 }
 
 void right() {
-  analogWrite(ENA, carSpeed);
-  analogWrite(ENB, slowcarSpeed);
-  /*digitalWrite(ENA, HIGH);
-  digitalWrite(ENB,HIGH);*/
+  analogWrite(ENA, MOTORA);
+  analogWrite(ENB, MOTORB);
+  comparison();
   digitalWrite(IN1, LOW);
   digitalWrite(IN2, HIGH);
   digitalWrite(IN3, HIGH);
@@ -70,10 +82,9 @@ void right() {
 }
 
 void left() {
-  analogWrite(ENA, carSpeed);
-  analogWrite(ENB, slowcarSpeed);
-  /*digitalWrite(ENA, HIGH);
-  digitalWrite(ENB,HIGH);*/
+  analogWrite(ENA, MOTORA);
+  analogWrite(ENB, MOTORB);
+  comparison();
   digitalWrite(IN1, HIGH);
   digitalWrite(IN2, LOW);
   digitalWrite(IN3, LOW);
@@ -86,6 +97,71 @@ void stop() {
   digitalWrite(ENB, LOW);
   Serial.println("Stop!");
 }
+
+void comparison(){
+  // Cheching MOTORB is quicker than MOTORA
+  widthA = pulseIn(tachA, HIGH);
+  widthB = pulseIn(tachB, HIGH);
+  MA1=widthA;
+  MB1=widthB;
+  delay(1);
+  widthA = pulseIn(tachA, HIGH);
+  widthB = pulseIn(tachB, HIGH);
+  MA2=widthA;
+  MB2=widthB;
+  delay(1);
+  widthA = pulseIn(tachA, HIGH);
+  widthB = pulseIn(tachB, HIGH);
+  MA3=widthA;
+  MB3=widthB;
+  widthA = pulseIn(tachA, HIGH);
+  widthB = pulseIn(tachB, HIGH);
+  MA4=widthA;
+  MB4=widthB;
+  delay(1);
+  widthA = pulseIn(tachA, HIGH);
+  widthB = pulseIn(tachB, HIGH);
+  MA5=widthA;
+  MB5=widthB;
+  delay(1);
+  widthA = pulseIn(tachA, HIGH);
+  widthB = pulseIn(tachB, HIGH);
+  MA6=widthA;
+  MB6=widthB;
+  AVwidthA = ((MA1 + MA2 + MA3 + MA4 + MA5 + MA6)/60);
+  AVwidthB = ((MB1 + MB2 + MB3 + MB4 + MB5 + MB6)/60);
+  widthA = AVwidthA;
+  widthB = AVwidthB;
+  Serial.print("This is widthA: ");
+  Serial.println(widthA);
+  Serial.print("This is MOTORA: ");
+  Serial.println(MOTORA);
+  Serial.print("This is widthB: ");
+  Serial.println(widthB);
+  Serial.print("This is MOTORB: ");
+  Serial.println(MOTORB);
+
+    if((widthA > widthB) && (MOTORA < 250)){
+      MOTORA == MOTORA++;
+      }
+    else if((widthA > widthB) && (MOTORA >= 250 )){
+      MOTORB == MOTORB--;
+      MOTORA--;
+      }      
+  // Cheching MOTORA is quicker than MOTORB
+    else if((widthA < widthB) && (MOTORB < 250)){
+      MOTORB == MOTORB++;
+      }
+    else if((widthA < widthB) && (MOTORB >= 250 )){
+      MOTORA == MOTORA--;
+      MOTORB--;
+      }
+    else{
+      //do nothing
+      Serial.println("SYNCHED");
+      }
+}
+
 
 void obstacleavoidance(){
   if((digitalRead(FR)==HIGH) && (digitalRead(FL)==HIGH)){
@@ -113,23 +189,6 @@ void obstacleavoidance(){
     right();
     delay(50);
     }
-/*    else if((digitalRead(BR)==HIGH) && (digitalRead(BL)==HIGH)){
-    Serial.println("BACK DETECT");
-    forward();
-    delay(10);
-  }
-  else if((digitalRead(BR)==HIGH) && (digitalRead(BL)==LOW)){
-    Serial.println("Back Right Active - STOP");
-    right();
-    delay(50);
-    forward();
-  }
-  else if((digitalRead(BR)==LOW) && (digitalRead(BL)==HIGH)){
-    Serial.println("Back Left Active - STOP");
-    left();
-    delay(50);
-    forward();
-  }*/
   else{
     forward();
     delay(10);
