@@ -143,6 +143,7 @@ void comparison(){
       }
     else if((widthA > widthB) && (MOTORA >= 250 )){
       MOTORB == MOTORB--;
+      MOTORB == MOTORB--;
       MOTORA--;
       }      
   // Cheching MOTORA is quicker than MOTORB
@@ -151,6 +152,7 @@ void comparison(){
       }
     else if((widthA < widthB) && (MOTORB >= 250 )){
       MOTORA == MOTORA--;
+      MOTORA == MOTORA--;;
       MOTORB--;
       }
     else{
