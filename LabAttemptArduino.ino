@@ -51,45 +51,45 @@ void setup() {
 void forward(){
   analogWrite(ENA, MOTORA);
   analogWrite(ENB, MOTORB);
-  comparison();
   digitalWrite(IN1, LOW);
   digitalWrite(IN2, HIGH);
   digitalWrite(IN3, LOW);
   digitalWrite(IN4, HIGH);
   Serial.println("Forward");
+  comparison();
 }
 
 void back() {
   analogWrite(ENA, MOTORA);
   analogWrite(ENB, MOTORB);
-  comparison();
   digitalWrite(IN1, HIGH);
   digitalWrite(IN2, LOW);
   digitalWrite(IN3, HIGH);
   digitalWrite(IN4, LOW);
   Serial.println("Back");
+  comparison();
 }
 
 void right() {
   analogWrite(ENA, MOTORA);
   analogWrite(ENB, MOTORB);
-  comparison();
   digitalWrite(IN1, LOW);
   digitalWrite(IN2, HIGH);
   digitalWrite(IN3, HIGH);
   digitalWrite(IN4, LOW);
   Serial.println("Right");
+  comparison();
 }
 
 void left() {
   analogWrite(ENA, MOTORA);
   analogWrite(ENB, MOTORB);
-  comparison();
   digitalWrite(IN1, HIGH);
   digitalWrite(IN2, LOW);
   digitalWrite(IN3, LOW);
   digitalWrite(IN4, HIGH);
   Serial.println("Left");
+  comparison();
 }
 
 void stop() {
@@ -128,7 +128,7 @@ void comparison(){
   widthB = pulseIn(tachB, HIGH);
   MA6=widthA;
   MB6=widthB;
-  AVwidthA = ((MA1 + MA2 + MA3 + MA4 + MA5 + MA6)/60);
+  AVwidthA = ((MA1 + MA2 + MA3 + MA4 + MA5 + MA6)/60); // 600 is inaccurate, 60 is accurate and 6 is more accurate
   AVwidthB = ((MB1 + MB2 + MB3 + MB4 + MB5 + MB6)/60);
   widthA = AVwidthA;
   widthB = AVwidthB;
