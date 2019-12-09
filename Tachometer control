@@ -13,17 +13,29 @@
   int widthA;
   int widthB;
   int MA1;
-  int MB1;
   int MA2;
-  int MB2;  
   int MA3;
-  int MB3;
   int MA4;
-  int MB4;
   int MA5;
-  int MB5;  
   int MA6;
+  int MA7;
+  int MA8;
+  int MA9;
+  int MA10;
+  int MA11;
+  int MA12; 
+  int MB1;
+  int MB2;
+  int MB3;
+  int MB4;
+  int MB5;
   int MB6;
+  int MB7;
+  int MB8;
+  int MB9;
+  int MB10;
+  int MB11;
+  int MB12; 
   int AVwidthA;
   int AVwidthB;
   
@@ -43,8 +55,6 @@ void setup() {
  void forward(){
     analogWrite(ENA, MOTORB);
     analogWrite(ENB, MOTORA);
-    /*digitalWrite(ENA, HIGH);
-    digitalWrite(ENB,HIGH);*/
     digitalWrite(IN1, LOW);
     digitalWrite(IN2, HIGH);
     digitalWrite(IN3, LOW);
@@ -58,68 +68,56 @@ void setup() {
 
 void comparison(){
   // Cheching MOTORB is quicker than MOTORA
-  widthA = pulseIn(tachA, HIGH);
-  widthB = pulseIn(tachB, HIGH);
-  MA1=widthA;
-  MB1=widthB;
-  delay(1);
-  widthA = pulseIn(tachA, HIGH);
-  widthB = pulseIn(tachB, HIGH);
-  MA2=widthA;
-  MB2=widthB;
-  delay(1);
-  widthA = pulseIn(tachA, HIGH);
-  widthB = pulseIn(tachB, HIGH);
-  MA3=widthA;
-  MB3=widthB;
-
-
-  widthA = pulseIn(tachA, HIGH);
-  widthB = pulseIn(tachB, HIGH);
-  MA4=widthA;
-  MB4=widthB;
-  delay(1);
-  widthA = pulseIn(tachA, HIGH);
-  widthB = pulseIn(tachB, HIGH);
-  MA5=widthA;
-  MB5=widthB;
-  delay(1);
-  widthA = pulseIn(tachA, HIGH);
-  widthB = pulseIn(tachB, HIGH);
-  MA6=widthA;
-  MB6=widthB;
-
-  AVwidthA = ((MA1 + MA2 + MA3 + MA4 + MA5 + MA6)/60); // Averages the values if the value of 60 is increased by a power of 10 it
-  AVwidthB = ((MB1 + MB2 + MB3 + MB4 + MB5 + MB6)/60); //reduces the accuracy
- 
-  widthA = AVwidthA;
-  widthB = AVwidthB;
-
-    Serial.print("This is widthA: ");
-    Serial.println(widthA);
-    Serial.print("This is MOTORA: ");
-    Serial.println(MOTORA);
-    Serial.print("This is widthB: ");
-    Serial.println(widthB);
-    Serial.print("This is MOTORB: ");
-    Serial.println(MOTORB);
-
-    if((widthA > widthB) && (MOTORB >= 150)){
-      MOTORB--;
-      }
-    else if((widthA < widthB) && (MOTORB < 250)){
-      MOTORB++;
-      }
-    else if((widthA < widthB) && (MOTORB >= 250 )){
-      MOTORB -= 10;
-      }
-    else if(MOTORB < 150 ){
-      MOTORA == 0;
-      MOTORB == 0;
-      }  
-    else{
-      Serial.println("SYNCHED");
-      }
+  MA1 = pulseIn(tachA, HIGH);
+  MB1 = pulseIn(tachB, HIGH);
+  MA2 = pulseIn(tachA, HIGH);
+  MB2 = pulseIn(tachB, HIGH);
+  MA3 = pulseIn(tachA, HIGH);
+  MB3 = pulseIn(tachB, HIGH);
+  MA4 = pulseIn(tachA, HIGH);
+  MB4 = pulseIn(tachB, HIGH);
+  MA5 = pulseIn(tachA, HIGH);
+  MB5 = pulseIn(tachB, HIGH);
+  MA6 = pulseIn(tachA, HIGH);
+  MB6 = pulseIn(tachB, HIGH);
+  MA7 = pulseIn(tachA, HIGH);
+  MB7 = pulseIn(tachB, HIGH);
+  MA8 = pulseIn(tachA, HIGH);
+  MB8 = pulseIn(tachB, HIGH);
+  MA9 = pulseIn(tachA, HIGH);
+  MB9 = pulseIn(tachB, HIGH);
+  MA10 = pulseIn(tachA, HIGH);
+  MB10 = pulseIn(tachB, HIGH);
+  MA11 = pulseIn(tachA, HIGH);
+  MB11 = pulseIn(tachB, HIGH);
+  MA12 = pulseIn(tachA, HIGH);
+  MB12 = pulseIn(tachB, HIGH);
+  widthA = ((MA1 + MA2 + MA3 + MA4 + MA5 + MA6 + MA7 + MA8 + MA9 + MA10 + MA11 + MA12)/120); // Averages the values if the value of 60 is increased by a power of 10 it
+  widthB = ((MB1 + MB2 + MB3 + MB4 + MB5 + MB6 + MB7 + MB8 + MB9 + MB10 + MB11 + MB12)/120); //reduces the accuracy
+  Serial.print("This is widthA: ");
+  Serial.println(widthA);
+  Serial.print("This is MOTORA: ");
+  Serial.println(MOTORA);
+  Serial.print("This is widthB: ");
+  Serial.println(widthB);
+  Serial.print("This is MOTORB: ");
+  Serial.println(MOTORB);
+  if((widthA > widthB) && (MOTORB >= 150)){
+    MOTORB--;
+    }
+  else if((widthA < widthB) && (MOTORB < 250)){
+    MOTORB++;
+    }
+  else if((widthA < widthB) && (MOTORB >= 250 )){
+    MOTORB -= 10;
+    }
+  else if(MOTORB < 150 ){
+    MOTORA == 0;
+    MOTORB == 0;
+    }  
+  else{
+    Serial.println("SYNCHED");
+    }
 }
 
 
