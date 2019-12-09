@@ -139,11 +139,11 @@ void comparison(){
   Serial.println(MOTORB);
 
     if((widthA > widthB) && (MOTORA < 250)){
-      MOTORA == MOTORA++;
+      MOTORA++;
       }
     else if((widthA > widthB) && (MOTORA >= 250 )){
-      MOTORB == MOTORB--;
-      MOTORB == MOTORB--;
+      MOTORB--;
+      MOTORB--;
       MOTORA--;
       }      
   // Cheching MOTORA is quicker than MOTORB
@@ -151,8 +151,8 @@ void comparison(){
       MOTORB == MOTORB++;
       }
     else if((widthA < widthB) && (MOTORB >= 250 )){
-      MOTORA == MOTORA--;
-      MOTORA == MOTORA--;;
+      MOTORA--;
+      MOTORA--;;
       MOTORB--;
       }
     else{
