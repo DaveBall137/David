@@ -1,0 +1,23 @@
+  int RWL = A0; //setting pin White line middle to pin 24
+  int LWL = A1; //setting pin White line middle to pin 24
+  int MWL = A2; //setting pin White line middle to pin 24
+  int PWL = 23;
+  int ZWL = 22;
+  
+  
+void setup() {
+  // put your setup code here, to run once:
+  pinMode(PWL, OUTPUT);
+  pinMode(ZWL, OUTPUT);
+  Serial.begin(9600);
+}
+
+void loop() {
+  // put your main code here, to run repeatedly:
+  digitalWrite(PWL == HIGH);
+  digitalWrite(ZWL == LOW);
+  RightWhite = analogRead(RWL);
+  LeftWhite = analogRead(LWL);
+  MiddleWhite = analogRead(MWL);
+ 
+}
