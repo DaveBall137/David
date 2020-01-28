@@ -9,7 +9,7 @@
   int IN3 = 47; //Setting pin 47 for the MC pin 3
   int IN4 = 46; //Setting pin 46 for the MC pin 4
   int ENB = 11; //Setting pin 3 as a PWM for B changed to 11
-  int MOTORA = 200;
+  int MOTORA = 180;
   int MOTORB = 200;
   int tachA = 3; // changed from 10 -> 3
   int tachB = 2; // changed from 11 -> 2
