@@ -200,7 +200,8 @@ void WhiteLineFollowing(){
     LeftTest = analogRead(LWL);
     MiddleTest = analogRead(MWL);
     RightTest = analogRead(RWL);
-    
+    MOTORA = 150;
+    MOTORB = 150;
     
     //Analogue reading of white is less than the analogue reading of black
     if((LeftTest > ThreshL)&& (RightTest > ThreshR) && (MiddleTest < ThreshM)){  // M = White with R && L = Black
@@ -209,30 +210,30 @@ void WhiteLineFollowing(){
     }
     else if((LeftTest < ThreshL)&& (RightTest > ThreshR) && (MiddleTest < ThreshM)){//L = M = White R = Black
       left();
-      delay(5);
+      delay(10);
       forward();
-      delay(2);
+      delay(5);
       Serial.println("Swerving Left ");
     }
     else if((LeftTest > ThreshL)&& (RightTest < ThreshR) && (MiddleTest < ThreshM)){ //R = M = White and L = Black
       right();
-      delay(5);
+      delay(10);
       forward();
-      delay(2);
+      delay(5);
       Serial.println("Swerving Right ");
     }
     else if((LeftTest < ThreshL)&& (RightTest > ThreshR) && (MiddleTest > ThreshM)){ //L = White & R = M = Black
       left();
-      delay(5);
+      delay(10);
       forward();
-      delay(2);
+      delay(5);
       Serial.println("Swerving Left Only ");
     }
      else if((LeftTest > ThreshL)&& (RightTest < ThreshR) && (MiddleTest > ThreshM)){ //R = White & L = M = Black
       right();
-      delay(5);
+      delay(10);
       forward();
-      delay(2);
+      delay(5);
       Serial.println("Swerving Right Only ");
     }
     /*else if((LeftTest < ThreshL)&& (RightTest < ThreshR) && (MiddleTest < ThreshM)){ //R = M = L = White
