@@ -57,7 +57,6 @@ void comparison(){
     Serial.println(MOTORB);
     if((DifferenceA > DifferenceB) && (MOTORB >= 150)){
       MOTORB--;
-      MOTOR
     }
     else if((DifferenceA < DifferenceB) && (MOTORB < 250)){
       MOTORB++;
