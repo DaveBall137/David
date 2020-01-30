@@ -1,6 +1,6 @@
   int RWL = A0; //setting pin White line middle to pin 24
-  int LWL = A1; //setting pin White line middle to pin 24
-  int MWL = A2; //setting pin White line middle to pin 24
+  int MWL = A1; //setting pin White line middle to pin 24
+  int LWL = A2; //setting pin White line middle to pin 24
   int PWL = 23;
   int ZWL = 22;
   int LeftWhite;
