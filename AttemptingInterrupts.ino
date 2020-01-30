@@ -9,11 +9,6 @@
   
   int tachA = 2; // changed from 10 -> 3
   int tachB = 3; // changed from 11 -> 2
-  
-  int widthA;  int widthB;
-  int MA1;  int MA2;  int MA3;  int MA4;  int MA5;  int MA6;  int MA7;  int MA8;  int MA9;  int MA10;  int MA11;  int MA12; 
-  int MB1;  int MB2;  int MB3;  int MB4;  int MB5;  int MB6;  int MB7;  int MB8;  int MB9;  int MB10;  int MB11;  int MB12; 
-  int AVwidthA;  int AVwidthB;
 
   unsigned long tachATime = 0;
   unsigned long tachATime1 = 0;
@@ -48,7 +43,7 @@ void forward(){
   digitalWrite(IN2, HIGH);
   digitalWrite(IN3, LOW);
   digitalWrite(IN4, HIGH);
-  //Serial.println("Forward");
+  Serial.println("Forward");
   comparison();
 }
 
