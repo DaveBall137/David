@@ -208,15 +208,7 @@ void obstacleavoidance(){
     delay(10);
     right();
     delay(50);
-    }
-   else if(((digitalRead(BR)==LOW) && (digitalRead(FL)==HIGH))||((digitalRead(BR)==LOW) && (digitalRead(FL)==HIGH))||((digitalRead(BR)==LOW) && (digitalRead(FL)==HIGH))){
-    Serial.println("Back Active - STOP");
-    stop();
-    delay(10);
-    forward();
-    comparison();
-    delay(10);
-    }
+  }
   else{
     forward();
     comparison();
