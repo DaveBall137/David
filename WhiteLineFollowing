@@ -9,7 +9,7 @@
   int IN3 = 47; //Setting pin 47 for the MC pin 3
   int IN4 = 46; //Setting pin 46 for the MC pin 4
   int ENB = 11; //Setting pin 3 as a PWM for B changed to 11
-  int MOTORA = 180;
+  int MOTORA = 200;
   int MOTORB = 200;
   
   int tachA = 3; // changed from 10 -> 3
@@ -22,8 +22,8 @@
   
   
   int RWL = A0; //setting pin White line middle to pin 24
-  int LWL = A1; //setting pin White line middle to pin 24
-  int MWL = A2; //setting pin White line middle to pin 24
+  int MWL = A1; //setting pin White line middle to pin 24
+  int LWL = A2; //setting pin White line middle to pin 24
   int PWL = 23;
   int ZWL = 22;
   int LeftWhite;
@@ -33,6 +33,9 @@
   int MiddleBlack;
   int RightBlack;
   int ThresholdComplete; 
+  int LeftTest = 0;
+  int MiddleTest = 0;
+  int RightTest = 0;
   float ThreshL;
   float ThreshM;
   float ThreshR;
@@ -65,16 +68,24 @@ void setup() {
   LeftBlack = 0;
   MiddleBlack = 0;
   RightBlack = 0;
+  LeftTest = 0;
+  MiddleTest = 0;
+  RightTest = 0;
   ThresholdComplete = 0;
-  float ThreshL = 0;
-  float ThreshM = 0;
-  float ThreshR = 0; 
+  int ThreshL = 0;
+  int ThreshM = 0;
+  int ThreshR = 0; 
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
-  WhiteLineSensors();
-  WhiteLineFollowing();
+  if(ThresholdComplete == 0){
+    WhiteLineSensors();  
+  }
+  else{
+    WhiteLineFollowing();   
+  }
+
   
   
 }
@@ -86,7 +97,7 @@ void forward(){
   digitalWrite(IN2, HIGH);
   digitalWrite(IN3, LOW);
   digitalWrite(IN4, HIGH);
-  Serial.println("Forward");
+  //Serial.println("Forward");
 }
 
 void back() {
@@ -96,7 +107,7 @@ void back() {
   digitalWrite(IN2, LOW);
   digitalWrite(IN3, HIGH);
   digitalWrite(IN4, LOW);
-  Serial.println("Back");
+  //Serial.println("Back");
 }
 
 void right() {
@@ -106,7 +117,7 @@ void right() {
   digitalWrite(IN2, HIGH);
   digitalWrite(IN3, HIGH);
   digitalWrite(IN4, LOW);
-  Serial.println("Right");
+  //Serial.println("Right");
 }
 
 void left() {
@@ -116,13 +127,13 @@ void left() {
   digitalWrite(IN2, LOW);
   digitalWrite(IN3, LOW);
   digitalWrite(IN4, HIGH);
-  Serial.println("Left");
+  //Serial.println("Left");
 }
 
 void stop() {
   digitalWrite(ENA, LOW);
   digitalWrite(ENB, LOW);
-  Serial.println("Stop!");
+ // Serial.println("Stop!");
 }
 
 void comparison(){
@@ -184,11 +195,37 @@ void comparison(){
 
 void WhiteLineFollowing(){
   for(;;){
-    while(digitalRead(FR) == LOW){
-      
+    LeftTest = analogRead(LWL);
+    MiddleTest = analogRead(MWL);
+    RightTest = analogRead(RWL);
+    //Analogue reading of white is less than the analogue reading of black
+    if((LeftTest > ThreshL)&& (RightTest > ThreshR) && (MiddleTest < ThreshM)){  // M = White with R && L = Black
+      forward();
+      Serial.println("Middle ");
     }
-    Serial.println("Ready to go ");
-    
+    else if((LeftTest < ThreshL)){//L = White
+      right();
+      delay(5);
+      forward();
+      delay(5);
+      left();
+      forward();
+      Serial.println("Swerving Right ");
+    }
+    else if((RightTest < ThreshR)){ //R = White
+      left();
+      delay(5);
+      forward();
+      delay(5);
+      right();
+      forward();
+      Serial.println("Swerving Left ");
+
+    }
+    else{
+      forward();
+      Serial.println("Unsure ");
+      }
   }
 }
 
@@ -216,9 +253,9 @@ void ADCBlack(){
   ADCThresholds();
 }
 void ADCThresholds(){
-  float ThreshL = ((LeftBlack + LeftWhite)/2);
-  float ThreshM = ((MiddleBlack + MiddleWhite)/2);
-  float ThreshR = ((RightBlack + RightWhite)/2);
+  ThreshL = ((LeftBlack + LeftWhite)/2);
+  ThreshM = ((MiddleBlack + MiddleWhite)/2);
+  ThreshR = ((RightBlack + RightWhite)/2);
   Serial.print("Threshold for Left is: ");
   Serial.println(ThreshL);
   Serial.print("Threshold for Middle is: ");
@@ -226,6 +263,7 @@ void ADCThresholds(){
   Serial.print("Threshold for Right is: ");
   Serial.println(ThreshR);
   ThresholdComplete = 1;
+  delay(100);
 }
 
 void WhiteLineSensors(){
@@ -246,7 +284,7 @@ void WhiteLineSensors(){
     
   }
   } 
-  return;
+  //exit(1);
   }
 
 
