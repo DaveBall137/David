@@ -35,7 +35,7 @@ void loop() {
     delay(50);  
   }
   else if((digitalRead(BR)==LOW) && (digitalRead(BL)==HIGH)){
-    Serial.println("Backt Left Active - STOP");
+    Serial.println("Back Left Active - STOP");
     delay(50);
     }
 }
