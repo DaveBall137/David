@@ -14,13 +14,7 @@
   
   int tachA = 2; // changed from 10 -> 3
   int tachB = 3; // changed from 11 -> 2
-  
-  int widthA;  int widthB;
-  int MA1;  int MA2;  int MA3;  int MA4;  int MA5;  int MA6;  int MA7;  int MA8;  int MA9;  int MA10;  int MA11;  int MA12; 
-  int MB1;  int MB2;  int MB3;  int MB4;  int MB5;  int MB6;  int MB7;  int MB8;  int MB9;  int MB10;  int MB11;  int MB12; 
-  int AVwidthA;  int AVwidthB;
-  
-  
+
   int RWL = A0; //setting pin White line middle to pin 24
   int MWL = A1; //setting pin White line middle to pin 24
   int LWL = A2; //setting pin White line middle to pin 24
