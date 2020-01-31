@@ -80,7 +80,7 @@
   pinMode(tachB, INPUT_PULLUP);
   attachInterrupt(digitalPinToInterrupt(tachB),countB,RISING);
   MOTORA = 200;
-  MOTORB = 190;
+  MOTORB = 185;
   }
 
 void forward(){
