@@ -11,9 +11,9 @@
   int ENB = 11; //Setting pin 3 as a PWM for B changed to 11
   int MOTORA;
   int MOTORB;
-  
-  int tachA = 3; // changed from 10 -> 3
-  int tachB = 2; // changed from 11 -> 2
+ 
+  int tachA = 2; // changed from 10 -> 2
+  int tachB = 3; // changed from 11 -> 3
   
   int widthA;  int widthB;
   int MA1;  int MA2;  int MA3;  int MA4;  int MA5;  int MA6;  int MA7;  int MA8;  int MA9;  int MA10;  int MA11;  int MA12; 
