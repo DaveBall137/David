@@ -11,9 +11,9 @@
   int ENB = 11; //Setting pin 3 as a PWM for B changed to 11
   int MOTORA;
   int MOTORB;
- 
-  int tachA = 2; // changed from 10 -> 2
-  int tachB = 3; // changed from 11 -> 3
+  
+  int tachA = 2; // changed from 10 -> 3
+  int tachB = 3; // changed from 11 -> 2
   
   int widthA;  int widthB;
   int MA1;  int MA2;  int MA3;  int MA4;  int MA5;  int MA6;  int MA7;  int MA8;  int MA9;  int MA10;  int MA11;  int MA12; 
@@ -201,7 +201,7 @@ void WhiteLineFollowing(){
     MiddleTest = analogRead(MWL);
     RightTest = analogRead(RWL);
     MOTORA = 150;
-    MOTORB = 150;
+    MOTORB = 150; //125 for both for a higher accuracy of following the line.
     
     //Analogue reading of white is less than the analogue reading of black
     if((LeftTest > ThreshL)&& (RightTest > ThreshR) && (MiddleTest < ThreshM)){  // M = White with R && L = Black
@@ -212,46 +212,45 @@ void WhiteLineFollowing(){
       left();
       delay(10);
       forward();
-      delay(5);
+      delay(3);
       Serial.println("Swerving Left ");
     }
     else if((LeftTest > ThreshL)&& (RightTest < ThreshR) && (MiddleTest < ThreshM)){ //R = M = White and L = Black
       right();
       delay(10);
       forward();
-      delay(5);
+      delay(3);
       Serial.println("Swerving Right ");
     }
     else if((LeftTest < ThreshL)&& (RightTest > ThreshR) && (MiddleTest > ThreshM)){ //L = White & R = M = Black
-      left();
-      delay(10);
-      forward();
-      delay(5);
-      Serial.println("Swerving Left Only ");
+        forward();
     }
      else if((LeftTest > ThreshL)&& (RightTest < ThreshR) && (MiddleTest > ThreshM)){ //R = White & L = M = Black
+        forward();
+    }
+    else if((LeftTest < ThreshL)&& (RightTest < ThreshR) && (MiddleTest < ThreshM)){ //R = M = L = White
+      stop();
+      delay(3);
       right();
       delay(10);
       forward();
+      delay(3);
+      Serial.println("Swerving Right ");
+    }
+    /*else if((LeftTest > ThreshL)&& (RightTest > ThreshR) && (MiddleTest > ThreshM)){ //R = M = L = Black
+      stop();
       delay(5);
-      Serial.println("Swerving Right Only ");
-    }
-    /*else if((LeftTest < ThreshL)&& (RightTest < ThreshR) && (MiddleTest < ThreshM)){ //R = M = L = White
-      stop();
-      delay(10);
-      forward();
-      delay(10);
-      Serial.println("All White ");
-    }
-    else if((LeftTest > ThreshL)&& (RightTest > ThreshR) && (MiddleTest > ThreshM)){ //R = M = L = Black
-      stop();
-      delay(10);
-      forward();
-      delay(10);
+      back();
+      delay(5);
+      right();
+      delay(15);
       Serial.println("All Black ");
-    }*/ //Purely for testing the sensors are detecting black and white correctly 
+    } */
     else{
-      forward();
+      right();
+      delay(20);
+      stop();
+      delay(10);
       Serial.println("Unsure ");
       }
   }
