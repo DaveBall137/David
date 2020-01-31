@@ -12,8 +12,8 @@
   int MOTORA;
   int MOTORB;
   
-  int tachA = 2; // changed from 10 -> 3
-  int tachB = 3; // changed from 11 -> 2
+  int tachA = 2; // changed from 10 -> 2
+  int tachB = 3; // changed from 11 -> 3
   
   unsigned long tachATime = 0;
   unsigned long tachATime1 = 0;
