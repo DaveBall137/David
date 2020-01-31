@@ -155,7 +155,7 @@ void comparison(){
       }
       }
       else{
-        Serial.println("TI"); //Timer issue
+        
       }
 }
 
