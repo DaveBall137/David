@@ -53,7 +53,7 @@ void setup() {
   pinMode(ENB, OUTPUT);
   pinMode(tachA,INPUT);
   pinMode(tachB,INPUT);
-  digitalWrite(PWL, HIGH);
+  digitalWrite(PWL, LOW);
   digitalWrite(ZWL, LOW);
   Serial.begin(9600);
   LeftWhite = 0;
@@ -76,14 +76,15 @@ void setup() {
 void loop() {
   // put your main code here, to run repeatedly:
   if(ThresholdComplete == 0){
+    digitalWrite(PWL, HIGH);
+    digitalWrite(ZWL, LOW);
+    MOTORA = 150;
+    MOTORB = 150; //125 for both for a higher accuracy of following the line.
     WhiteLineSensors();  
   }
   else{
     WhiteLineFollowing();   
   }
-
-  
-  
 }
 
 void forward(){
@@ -132,70 +133,12 @@ void stop() {
  // Serial.println("Stop!");
 }
 
-void comparison(){
-  // Cheching MOTORB is quicker than MOTORA
-  MA1 = pulseIn(tachA, HIGH);
-  MB1 = pulseIn(tachB, HIGH);
-  MA2 = pulseIn(tachA, HIGH);
-  MB2 = pulseIn(tachB, HIGH);
-  MA3 = pulseIn(tachA, HIGH);
-  MB3 = pulseIn(tachB, HIGH);
-  MA4 = pulseIn(tachA, HIGH);
-  MB4 = pulseIn(tachB, HIGH);
-  MA5 = pulseIn(tachA, HIGH);
-  MB5 = pulseIn(tachB, HIGH);
-  MA6 = pulseIn(tachA, HIGH);
-  MB6 = pulseIn(tachB, HIGH);
-  MA7 = pulseIn(tachA, HIGH);
-  MB7 = pulseIn(tachB, HIGH);
-  MA8 = pulseIn(tachA, HIGH);
-  MB8 = pulseIn(tachB, HIGH);
-  MA9 = pulseIn(tachA, HIGH);
-  MB9 = pulseIn(tachB, HIGH);
-  MA10 = pulseIn(tachA, HIGH);
-  MB10 = pulseIn(tachB, HIGH);
-  MA11 = pulseIn(tachA, HIGH);
-  MB11 = pulseIn(tachB, HIGH);
-  MA12 = pulseIn(tachA, HIGH);
-  MB12 = pulseIn(tachB, HIGH);
-  widthA = ((MA1 + MA2 + MA3 + MA4 + MA5 + MA6 + MA7 + MA8 + MA9 + MA10 + MA11 + MA12)/120); // Averages the values if the value of 60 is increased by a power of 10 it
-  widthB = ((MB1 + MB2 + MB3 + MB4 + MB5 + MB6 + MB7 + MB8 + MB9 + MB10 + MB11 + MB12)/120); //reduces the accuracy
-  Serial.print("This is widthA: ");
-  Serial.println(widthA);
-  Serial.print("This is MOTORA: ");
-  Serial.println(MOTORA);
-  Serial.print("This is widthB: ");
-  Serial.println(widthB);
-  Serial.print("This is MOTORB: ");
-  Serial.println(MOTORB);
-  
-  if((widthA > widthB) && (MOTORB >= 150)){
-    MOTORB--;
-    }
-  else if((widthA < widthB) && (MOTORB < 250)){
-    MOTORB++;
-    }
-  else if((widthA < widthB) && (MOTORB >= 250 )){
-    MOTORB -= 10;
-    }
-  else if(MOTORB < 150 ){
-    MOTORA == 0;
-    MOTORB == 0;
-    }  
-  else{
-    Serial.println("SYNCHED");
-    }
-}
-
-
-
 void WhiteLineFollowing(){
   for(;;){
     LeftTest = analogRead(LWL);
     MiddleTest = analogRead(MWL);
     RightTest = analogRead(RWL);
-    MOTORA = 150;
-    MOTORB = 150; //125 for both for a higher accuracy of following the line.
+
     
     //Analogue reading of white is less than the analogue reading of black
     if((LeftTest > ThreshL)&& (RightTest > ThreshR) && (MiddleTest < ThreshM)){  // M = White with R && L = Black
@@ -306,5 +249,3 @@ void WhiteLineSensors(){
   }
   } 
   }
-
-
