@@ -6,6 +6,7 @@
   int ENB = 11; //Setting pin 3 as a PWM for B changed to 11
   int MOTORA;
   int MOTORB;
+  int MotorGND = 44;
   
   int tachA = 2; // changed from 10 -> 3
   int tachB = 3; // changed from 11 -> 2
@@ -26,8 +27,10 @@
   pinMode(IN4, OUTPUT);
   pinMode(ENA, OUTPUT);
   pinMode(ENB, OUTPUT);
+  pinMode(MotorGND, OUTPUT);
   Serial.begin(9600);
-  
+    
+  digitalWrite(MotorGND, LOW);
   pinMode(tachA, INPUT_PULLUP);
   attachInterrupt(digitalPinToInterrupt(tachA),countA,RISING);
   pinMode(tachB, INPUT_PULLUP);
