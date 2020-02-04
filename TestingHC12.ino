@@ -1,6 +1,6 @@
 #include <SoftwareSerial.h>
-SoftwareSerial HC12(10,11); //For arduino uno Tx, Rx
-//SoftwareSerial HC12(12,13); //12,13 for Mega Tx, Rx
+SoftwareSerial HC12(10,11); //10,11 for Arduino uno Tx, Rx
+//SoftwareSerial HC12(12,13); //12,13 for Arduino Mega Tx, Rx
 
 void setup() {
   // put your setup code here, to run once:
