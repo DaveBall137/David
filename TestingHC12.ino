@@ -11,10 +11,10 @@ void setup() {
 
 void loop() {
   // put your main code here, to run repeatedly:
-  while(HC12.available()){
-    Serial.write(HC12.read());
+  while(HC12.available()){ // if HC-12 module has data
+    Serial.write(HC12.read()); // sends data from HC12 to Serial monitor
   }
-  while(Serial.available()){
-    HC12.write(Serial.read());
+  while(Serial.available()){ // if Serial monitor has data
+    HC12.write(Serial.read()); // sends data from arduino to HC12 module which will transmit
   }
 }
