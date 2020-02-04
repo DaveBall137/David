@@ -11,6 +11,7 @@
   int ENB = 11; //Setting pin 3 as a PWM for B changed to 11
   int MOTORA;
   int MOTORB;
+  int MotorGND = 44;
   
   int tachA = 2; // changed from 10 -> 2
   int tachB = 3; // changed from 11 -> 3
@@ -56,6 +57,8 @@
   pinMode(IN4, OUTPUT);
   pinMode(ENA, OUTPUT);
   pinMode(ENB, OUTPUT);
+  pinMode(MotorGND, OUTPUT);
+  digitalWrite(MotorGND, LOW);
   pinMode(tachA,INPUT);
   pinMode(tachB,INPUT);
   digitalWrite(PWL, HIGH);
