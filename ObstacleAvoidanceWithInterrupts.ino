@@ -61,7 +61,7 @@
   digitalWrite(MotorGND, LOW);
   pinMode(tachA,INPUT);
   pinMode(tachB,INPUT);
-  digitalWrite(PWL, HIGH);
+  digitalWrite(PWL, LOW);
   digitalWrite(ZWL, LOW);
   Serial.begin(9600);
   LeftWhite = 0;
