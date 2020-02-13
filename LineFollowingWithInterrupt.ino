@@ -248,7 +248,11 @@ void WhiteLineFollowing(){
     else{
       right();
       delay(20);
-      stop();
+      forward();
+      delay(10);
+      left();
+      delay(20);
+      forward();
       delay(10);
       Serial.println("Unsure ");
       }
