@@ -2,6 +2,13 @@
   int FL = 51; //setting pin 51 to the Front Left sensor
   int BL = 52; //setting pin 52 to the Back Left sensor
   int BR = 53; //setting pin 53 to the Back Right sensor
+
+  int FRBumpPower = 40; // Supplying power to common
+  int FRBump = 41; // Gives 5V when pressed
+  int FLBumpPower = 42; //...
+  int FLBump = 43; //...
+  int BumpGND = 45; // Grounds the bumpers pull down resistors
+   
   
   int ENA = 10; //Setting pin 2 as a PWM for A changed to 10
   int IN1 = 49; //Setting pin 49 for the MC pin 1
@@ -46,10 +53,23 @@
   // put your setup code here, to run once:
   pinMode(PWL, OUTPUT);
   pinMode(ZWL, OUTPUT);
+  digitalWrite(PWL, LOW);
+  digitalWrite(ZWL, LOW);
   pinMode(BR, INPUT);
   pinMode(BL, INPUT);
   pinMode(FR, INPUT);
   pinMode(FL, INPUT);
+  
+  
+  pinMode(FLBump,INPUT);
+  pinMode(FRBump, INPUT);
+  pinMode(FRBumpPower, OUTPUT);
+  pinMode(FLBumpPower,OUTPUT);
+  pinMode(BumpGND,OUTPUT);
+  digitalWrite(FRBumpPower,HIGH);
+  digitalWrite(FLBumpPower,HIGH);
+  digitalWrite(BumpGND,LOW);
+  
   Serial.begin(9600);
   pinMode(IN1, OUTPUT);
   pinMode(IN2, OUTPUT);
@@ -61,9 +81,7 @@
   digitalWrite(MotorGND, LOW);
   pinMode(tachA,INPUT);
   pinMode(tachB,INPUT);
-  digitalWrite(PWL, LOW);
-  digitalWrite(ZWL, LOW);
-  Serial.begin(9600);
+  
   LeftWhite = 0;
   MiddleWhite = 0;
   RightWhite = 0;
@@ -197,6 +215,33 @@ void obstacleavoidance(){
   }
   else if((digitalRead(FR)==LOW) && (digitalRead(FL)==HIGH)){
     Serial.println("Front Left Active - STOP");
+    stop();
+    delay(10);
+    back();
+    delay(10);
+    right();
+    delay(50);
+    }
+    else if((digitalRead(FRBump)==HIGH) && (digitalRead(FLBump)==HIGH)){
+    Serial.println("FRONT Bumpers DETECT");
+    stop();
+    delay(10);
+    back();
+    delay(10);
+    right();
+    delay(50);
+  }
+  else if((digitalRead(FRBump)==HIGH) && (digitalRead(FLBump)==LOW)){
+    Serial.println("Front Right Bumper - STOP");
+    stop();
+    delay(10);
+    back();
+    delay(10);
+    left();
+    delay(50);  
+  }
+  else if((digitalRead(FRBump)==LOW) && (digitalRead(FLBump)==HIGH)){
+    Serial.println("Front Left Bumper - STOP");
     stop();
     delay(10);
     back();
