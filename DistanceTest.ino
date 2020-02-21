@@ -49,10 +49,10 @@
   float ThreshR;
 
   int Distance = 0;
-  int BackDistance = 100;
-  int ForwardDistance = 100;
-  int RightDistance = 100;
-  int LeftDistance = 100;
+  int BackDistance = 50;
+  int ForwardDistance = 50;
+  int RightDistance = 50;
+  int LeftDistance = 50;
 
   float voltage = 0;
   float threshold = 5.8; //Threshold depending on the battery to determine low battery SoC
@@ -221,8 +221,8 @@ void VoltageRead(){
 
 void obstacleavoidance(){
   VoltageRead();
-  Distance = ForwardDistance;
-  forward();
+  Distance = RightDistance;
+  right();
   stop();
   delay(10000);
 }
