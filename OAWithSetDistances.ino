@@ -49,10 +49,10 @@
   float ThreshR;
 
   int Distance = 0;
-  int BackDistance = 100;
-  int ForwardDistance = 100;
-  int RightDistance = 100;
-  int LeftDistance = 100;
+  int BackDistance = 5;
+  int ForwardDistance = 5;
+  int RightDistance = 5;
+  int LeftDistance = 5;
 
   void setup() {
   // put your setup code here, to run once:
@@ -110,20 +110,22 @@
   }
 
 void forward(){
-  if(Distance != 0){
+  while(Distance > 0){
     analogWrite(ENA, MOTORB);
     analogWrite(ENB, MOTORA);
     digitalWrite(IN1, LOW);
     digitalWrite(IN2, HIGH);
     digitalWrite(IN3, LOW);
     digitalWrite(IN4, HIGH);
-    //Serial.println("Forward");
+    Serial.println("Forward");
     comparison();
+    Distance--;
+    Serial.print("Distance for travel ");
+    Serial.println(Distance);
   }
-  else{}
 }
 void back() {
-  if(Distance != 0){
+  while(Distance > 0){
     analogWrite(ENA, MOTORA);
     analogWrite(ENB, MOTORB);
     digitalWrite(IN1, HIGH);
@@ -131,12 +133,14 @@ void back() {
     digitalWrite(IN3, HIGH);
     digitalWrite(IN4, LOW);
     Serial.println("Back");
+    Distance--;
+    Serial.print("Distance for travel ");
+    Serial.println(Distance);
   }
-  else{}
 }
 
 void right() {
-  if(Distance != 0){
+  while(Distance > 0){
     analogWrite(ENA, MOTORA);
     analogWrite(ENB, MOTORB);
     digitalWrite(IN1, LOW);
@@ -144,12 +148,14 @@ void right() {
     digitalWrite(IN3, HIGH);
     digitalWrite(IN4, LOW);
     Serial.println("Right");
+    Distance--;
+    Serial.print("Distance for travel ");
+    Serial.println(Distance);
   }
-  else{}
 }
 
 void left() {
-  if(Distance != 0){
+  while(Distance > 0){
     analogWrite(ENA, MOTORA);
     analogWrite(ENB, MOTORB);
     digitalWrite(IN1, HIGH);
@@ -157,8 +163,10 @@ void left() {
     digitalWrite(IN3, LOW);
     digitalWrite(IN4, HIGH);
     Serial.println("Left");
+    Distance--;
+    Serial.print("Distance for travel ");
+    Serial.println(Distance);
   }
-  else{}
 }
 
 void stop() {
@@ -169,12 +177,12 @@ void stop() {
 
 void comparison(){
   if((DifferenceA > -750) && (DifferenceA > -750)){
-    Serial.print("Difference is: ");
+    /*Serial.print("Difference is: ");
     Serial.println((DifferenceA - DifferenceB));
     Serial.print("This is MOTORA: ");
     Serial.println(MOTORA);
     Serial.print("This is MOTORB: ");
-    Serial.println(MOTORB);
+    Serial.println(MOTORB);*/
     if((DifferenceA > DifferenceB) && (MOTORB >= 150)){
       MOTORB--;
     }
@@ -201,9 +209,6 @@ void countA() {
   tachATime = micros();
   DifferenceA = tachATime - tachATime1;
   tachATime1 = tachATime;
-  if(Distance > 0){
-        Distance--;
-  }
   //Serial.print("DifferenceA :");
   //Serial.println(DifferenceA); 
 }
@@ -212,9 +217,6 @@ void countB() {
   tachBTime = micros();
   DifferenceB = tachBTime - tachBTime1;
   tachBTime1 = tachBTime;
-  if(Distance > 0){
-        Distance--;
-  }
   //Serial.print("DifferenceB :");
   //Serial.println(DifferenceB);  
 }
@@ -225,8 +227,6 @@ void obstacleavoidance(){
   if((digitalRead(FR)==HIGH) && (digitalRead(FL)==HIGH)){
     Serial.println("FRONT DETECT");
     stop();
-    Distance = BackDistance;
-    back();
     Distance = RightDistance;
     right();
   }
@@ -239,8 +239,6 @@ void obstacleavoidance(){
   else if((digitalRead(FR)==LOW) && (digitalRead(FL)==HIGH)){
     Serial.println("Front Left Active - STOP");
     stop();
-    Distance = BackDistance;
-    back();
     Distance = RightDistance;
     right();
     }
