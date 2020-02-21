@@ -8,7 +8,7 @@
   int FLBumpPower = 42; //...
   int FLBump = 43; //...
   int BumpGND = 45; // Grounds the bumpers pull down resistors
-   
+
   int ENA = 10; //Setting pin 2 as a PWM for A changed to 10
   int IN1 = 49; //Setting pin 49 for the MC pin 1
   int IN2 = 48; //Setting pin 48 for the MC pin 2
@@ -18,10 +18,10 @@
   int MOTORA;
   int MOTORB;
   int MotorGND = 44;
-  
+
   int tachA = 2; // changed from 10 -> 2
   int tachB = 3; // changed from 11 -> 3
-  
+
   unsigned long tachATime = 0;
   unsigned long tachATime1 = 0;
   int DifferenceA = 0;
@@ -49,17 +49,17 @@
   float ThreshR;
 
   int Distance = 0;
-  int BackDistance = 100;
-  int ForwardDistance = 100;
-  int RightDistance = 100;
-  int LeftDistance = 100;
+  int BackDistance = 5;
+  int ForwardDistance = 5;
+  int RightDistance = 3;
+  int LeftDistance = 3;
 
   float ReadVoltage = 0;
   float voltage = 0;
   float threshold = 6.0; //Threshold depending on the battery to determine low battery SoC
   float v_read = A3;
   float Adjustment = 0.110;
-  
+
   void setup() {
   // put your setup code here, to run once:
   pinMode(PWL, OUTPUT);
@@ -70,9 +70,9 @@
   pinMode(BL, INPUT);
   pinMode(FR, INPUT);
   pinMode(FL, INPUT);
-  
+
   pinMode(v_read,INPUT);
-  
+
   pinMode(FLBump,INPUT);
   pinMode(FRBump, INPUT);
   pinMode(FRBumpPower, OUTPUT);
@@ -81,7 +81,7 @@
   digitalWrite(FRBumpPower,HIGH);
   digitalWrite(FLBumpPower,HIGH);
   digitalWrite(BumpGND,LOW);
-  
+
   Serial.begin(9600);
   pinMode(IN1, OUTPUT);
   pinMode(IN2, OUTPUT);
@@ -93,7 +93,7 @@
   digitalWrite(MotorGND, LOW);
   pinMode(tachA,INPUT);
   pinMode(tachB,INPUT);
-  
+
   LeftWhite = 0;
   MiddleWhite = 0;
   RightWhite = 0;
@@ -107,7 +107,7 @@
   int ThreshL = 0;
   int ThreshM = 0;
   int ThreshR = 0;
-  
+
   pinMode(tachA, INPUT_PULLUP);
   attachInterrupt(digitalPinToInterrupt(tachA),countA,RISING);
   pinMode(tachB, INPUT_PULLUP);
@@ -117,20 +117,22 @@
   }
 
 void forward(){
-  if(Distance != 0){
+  while(Distance > 0){
     analogWrite(ENA, MOTORB);
     analogWrite(ENB, MOTORA);
     digitalWrite(IN1, LOW);
     digitalWrite(IN2, HIGH);
     digitalWrite(IN3, LOW);
     digitalWrite(IN4, HIGH);
-    //Serial.println("Forward");
+    Serial.println("Forward");
     comparison();
+    Distance--;
+    Serial.print("Distance for travel ");
+    Serial.println(Distance);
   }
-  else{}
 }
 void back() {
-  if(Distance != 0){
+  while(Distance > 0){
     analogWrite(ENA, MOTORA);
     analogWrite(ENB, MOTORB);
     digitalWrite(IN1, HIGH);
@@ -138,12 +140,14 @@ void back() {
     digitalWrite(IN3, HIGH);
     digitalWrite(IN4, LOW);
     Serial.println("Back");
+    Distance--;
+    Serial.print("Distance for travel ");
+    Serial.println(Distance);
   }
-  else{}
 }
 
 void right() {
-  if(Distance != 0){
+  while(Distance > 0){
     analogWrite(ENA, MOTORA);
     analogWrite(ENB, MOTORB);
     digitalWrite(IN1, LOW);
@@ -151,12 +155,14 @@ void right() {
     digitalWrite(IN3, HIGH);
     digitalWrite(IN4, LOW);
     Serial.println("Right");
+    Distance--;
+    Serial.print("Distance for travel ");
+    Serial.println(Distance);
   }
-  else{}
 }
 
 void left() {
-  if(Distance != 0){
+  while(Distance > 0){
     analogWrite(ENA, MOTORA);
     analogWrite(ENB, MOTORB);
     digitalWrite(IN1, HIGH);
@@ -164,8 +170,10 @@ void left() {
     digitalWrite(IN3, LOW);
     digitalWrite(IN4, HIGH);
     Serial.println("Left");
+    Distance--;
+    Serial.print("Distance for travel ");
+    Serial.println(Distance);
   }
-  else{}
 }
 
 void stop() {
@@ -176,12 +184,12 @@ void stop() {
 
 void comparison(){
   if((DifferenceA > -750) && (DifferenceA > -750)){
-    Serial.print("Difference is: ");
+    /*Serial.print("Difference is: ");
     Serial.println((DifferenceA - DifferenceB));
     Serial.print("This is MOTORA: ");
     Serial.println(MOTORA);
     Serial.print("This is MOTORB: ");
-    Serial.println(MOTORB);
+    Serial.println(MOTORB);*/
     if((DifferenceA > DifferenceB) && (MOTORB >= 150)){
       MOTORB--;
     }
@@ -200,7 +208,7 @@ void comparison(){
       }
       }
       else{
-        
+
       }
 }
 
@@ -208,9 +216,6 @@ void countA() {
   tachATime = micros();
   DifferenceA = tachATime - tachATime1;
   tachATime1 = tachATime;
-  if(Distance > 0){
-        Distance--;
-  }
   //Serial.print("DifferenceA :");
   //Serial.println(DifferenceA); 
 }
@@ -219,9 +224,6 @@ void countB() {
   tachBTime = micros();
   DifferenceB = tachBTime - tachBTime1;
   tachBTime1 = tachBTime;
-  if(Distance > 0){
-        Distance--;
-  }
   //Serial.print("DifferenceB :");
   //Serial.println(DifferenceB);  
 }
@@ -229,77 +231,69 @@ void countB() {
 
 
 void obstacleavoidance(){
-  if((digitalRead(FR)==HIGH) && (digitalRead(FL)==HIGH)){
-    Serial.println("FRONT DETECT");
-    stop();
-    Distance = BackDistance;
-    back();
-    Distance = RightDistance;
-    right();
-  }
-  else if((digitalRead(FR)==HIGH) && (digitalRead(FL)==LOW)){
-    Serial.println("Front Right Active - STOP");
-    stop();
-    Distance = LeftDistance;
-    left(); 
-  }
-  else if((digitalRead(FR)==LOW) && (digitalRead(FL)==HIGH)){
-    Serial.println("Front Left Active - STOP");
-    stop();
-    Distance = BackDistance;
-    back();
-    Distance = RightDistance;
-    right();
+    ReadVoltage = analogRead(v_read);
+    /*Serial.print("Read Voltage:"); //Prints to monitor
+    Serial.println(ReadVoltage); // Only needed for testing*/
+    voltage = ((ReadVoltage*(7.5/1023))- Adjustment);
+    Serial.print("Voltage:"); //Prints to monitor
+    Serial.println(voltage);
+    if(voltage > threshold){
+      if((digitalRead(FR)==HIGH) && (digitalRead(FL)==HIGH)){
+        Serial.println("FRONT DETECT");
+        stop();
+        Distance = RightDistance;
+        right();
+      }
+      else if((digitalRead(FR)==HIGH) && (digitalRead(FL)==LOW)){
+        Serial.println("Front Right Active - STOP");
+        stop();
+        Distance = LeftDistance;
+        left(); 
+      }
+      else if((digitalRead(FR)==LOW) && (digitalRead(FL)==HIGH)){
+        Serial.println("Front Left Active - STOP");
+        stop();
+        Distance = RightDistance;
+        right();
+      }
+      else if((digitalRead(FRBump)==HIGH) && (digitalRead(FLBump)==HIGH)){
+        Serial.println("FRONT Bumpers DETECT");
+        stop();
+        Distance = BackDistance;
+        back();
+        Distance = RightDistance;
+        right();
+      }
+      else if((digitalRead(FRBump)==HIGH) && (digitalRead(FLBump)==LOW)){
+        Serial.println("Front Right Bumper - STOP");
+        stop();
+        Distance = BackDistance;
+        back();
+        Distance = LeftDistance;
+        left();
+      }
+      else if((digitalRead(FRBump)==LOW) && (digitalRead(FLBump)==HIGH)){
+        Serial.println("Front Left Bumper - STOP");
+        stop();
+        Distance = BackDistance;
+        back();
+        Distance = RightDistance;
+        right();
+        }
+      else{
+        Distance = ForwardDistance;
+        forward();
     }
-    else if((digitalRead(FRBump)==HIGH) && (digitalRead(FLBump)==HIGH)){
-    Serial.println("FRONT Bumpers DETECT");
-    stop();
-    Distance = BackDistance;
-    back();
-    Distance = RightDistance;
-    right();
-  }
-  else if((digitalRead(FRBump)==HIGH) && (digitalRead(FLBump)==LOW)){
-    Serial.println("Front Right Bumper - STOP");
-    stop();
-    Distance = BackDistance;
-    back();
-    Distance = LeftDistance;
-    left();
-  }
-  else if((digitalRead(FRBump)==LOW) && (digitalRead(FLBump)==HIGH)){
-    Serial.println("Front Left Bumper - STOP");
-    stop();
-    Distance = BackDistance;
-    back();
-    Distance = RightDistance;
-    right();
-    }
-  else{
-    Distance = ForwardDistance;
-    forward();
+}
+else{
+  Serial.print("Voltage is too low:"); //Prints to monitor
+  Serial.println(voltage);
+  stop();
+  Serial.print("NEED TO RETURN HOME");
 }
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
-  ReadVoltage = analogRead(v_read);
-  /*Serial.print("Read Voltage:"); //Prints to monitor
-  Serial.println(ReadVoltage); // Only needed for testing*/
-  voltage = ((ReadVoltage*(7.5/1023))- Adjustment);
-  Serial.print("Voltage:"); //Prints to monitor
-  Serial.println(voltage);
-  if(voltage > threshold){
-    obstacleavoidance();
-  }
-  if(voltage < threshold){
-    Serial.print("Voltage is too low:"); //Prints to monitor
-    Serial.println(voltage);
-    stop();
-    Serial.print("NEED TO RETURN HOME");
-  }
-
-  
-    
-
+      obstacleavoidance();
 }
