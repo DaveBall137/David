@@ -54,9 +54,8 @@
   int RightDistance = 3;
   int LeftDistance = 3;
 
-  float ReadVoltage = 0;
   float voltage = 0;
-  float threshold = 6.0; //Threshold depending on the battery to determine low battery SoC
+  float threshold = 5.8; //Threshold depending on the battery to determine low battery SoC
   float v_read = A3;
   float Adjustment = 0.110;
 
@@ -227,70 +226,69 @@ void countB() {
   //Serial.print("DifferenceB :");
   //Serial.println(DifferenceB);  
 }
-
-
-
-void obstacleavoidance(){
-    ReadVoltage = analogRead(v_read);
+void VoltageRead(){
     /*Serial.print("Read Voltage:"); //Prints to monitor
     Serial.println(ReadVoltage); // Only needed for testing*/
-    voltage = ((ReadVoltage*(7.5/1023))- Adjustment);
+    voltage = ((analogRead(v_read)*(7.5/1023))- Adjustment);
     Serial.print("Voltage:"); //Prints to monitor
     Serial.println(voltage);
-    if(voltage > threshold){
-      if((digitalRead(FR)==HIGH) && (digitalRead(FL)==HIGH)){
-        Serial.println("FRONT DETECT");
-        stop();
-        Distance = RightDistance;
-        right();
-      }
-      else if((digitalRead(FR)==HIGH) && (digitalRead(FL)==LOW)){
-        Serial.println("Front Right Active - STOP");
-        stop();
-        Distance = LeftDistance;
-        left(); 
-      }
-      else if((digitalRead(FR)==LOW) && (digitalRead(FL)==HIGH)){
-        Serial.println("Front Left Active - STOP");
-        stop();
-        Distance = RightDistance;
-        right();
-      }
-      else if((digitalRead(FRBump)==HIGH) && (digitalRead(FLBump)==HIGH)){
-        Serial.println("FRONT Bumpers DETECT");
-        stop();
-        Distance = BackDistance;
-        back();
-        Distance = RightDistance;
-        right();
-      }
-      else if((digitalRead(FRBump)==HIGH) && (digitalRead(FLBump)==LOW)){
-        Serial.println("Front Right Bumper - STOP");
-        stop();
-        Distance = BackDistance;
-        back();
-        Distance = LeftDistance;
-        left();
-      }
-      else if((digitalRead(FRBump)==LOW) && (digitalRead(FLBump)==HIGH)){
-        Serial.println("Front Left Bumper - STOP");
-        stop();
-        Distance = BackDistance;
-        back();
-        Distance = RightDistance;
-        right();
-        }
-      else{
-        Distance = ForwardDistance;
-        forward();
+  while(voltage < threshold){
+      Serial.print("Voltage is too low:"); //Prints to monitor
+      Serial.println(voltage);
+      stop();
+      Serial.print("NEED TO RETURN HOME");
+      voltage = ((analogRead(v_read)*(7.5/1023))- Adjustment);
     }
 }
-else{
-  Serial.print("Voltage is too low:"); //Prints to monitor
-  Serial.println(voltage);
-  stop();
-  Serial.print("NEED TO RETURN HOME");
-}
+
+void obstacleavoidance(){
+  VoltageRead();
+  if((digitalRead(FR)==HIGH) && (digitalRead(FL)==HIGH)){
+    Serial.println("FRONT DETECT");
+    stop();
+    Distance = RightDistance;
+    right();
+    }
+    else if((digitalRead(FR)==HIGH) && (digitalRead(FL)==LOW)){
+      Serial.println("Front Right Active - STOP");
+      stop();
+      Distance = LeftDistance;
+      left(); 
+    }
+    else if((digitalRead(FR)==LOW) && (digitalRead(FL)==HIGH)){
+      Serial.println("Front Left Active - STOP");
+      stop();
+      Distance = RightDistance;
+      right();
+    }
+    else if((digitalRead(FRBump)==HIGH) && (digitalRead(FLBump)==HIGH)){
+      Serial.println("FRONT Bumpers DETECT");
+      stop();
+      Distance = BackDistance;
+      back();
+      Distance = RightDistance;
+      right();
+    }
+    else if((digitalRead(FRBump)==HIGH) && (digitalRead(FLBump)==LOW)){
+      Serial.println("Front Right Bumper - STOP");
+      stop();
+      Distance = BackDistance;
+      back();
+      Distance = LeftDistance;
+      left();
+    }
+    else if((digitalRead(FRBump)==LOW) && (digitalRead(FLBump)==HIGH)){
+      Serial.println("Front Left Bumper - STOP");
+      stop();
+      Distance = BackDistance;
+      back();
+      Distance = RightDistance;
+      right();
+      }
+    else{
+      Distance = ForwardDistance;
+      forward();
+      }
 }
 
 void loop() {
