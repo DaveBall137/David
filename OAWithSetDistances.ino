@@ -54,9 +54,6 @@
   int RightDistance = 100;
   int LeftDistance = 100;
 
-
-
-
   void setup() {
   // put your setup code here, to run once:
   pinMode(PWL, OUTPUT);
