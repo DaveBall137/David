@@ -8,7 +8,7 @@
   int FLBumpPower = 42; //...
   int FLBump = 43; //...
   int BumpGND = 45; // Grounds the bumpers pull down resistors
-   
+
   int ENA = 10; //Setting pin 2 as a PWM for A changed to 10
   int IN1 = 49; //Setting pin 49 for the MC pin 1
   int IN2 = 48; //Setting pin 48 for the MC pin 2
@@ -18,10 +18,10 @@
   int MOTORA;
   int MOTORB;
   int MotorGND = 44;
-  
+
   int tachA = 2; // changed from 10 -> 2
   int tachB = 3; // changed from 11 -> 3
-  
+
   unsigned long tachATime = 0;
   unsigned long tachATime1 = 0;
   int DifferenceA = 0;
@@ -56,7 +56,7 @@
 
 
 
-  
+
   void setup() {
   // put your setup code here, to run once:
   pinMode(PWL, OUTPUT);
@@ -67,8 +67,8 @@
   pinMode(BL, INPUT);
   pinMode(FR, INPUT);
   pinMode(FL, INPUT);
-  
-  
+
+
   pinMode(FLBump,INPUT);
   pinMode(FRBump, INPUT);
   pinMode(FRBumpPower, OUTPUT);
@@ -77,7 +77,7 @@
   digitalWrite(FRBumpPower,HIGH);
   digitalWrite(FLBumpPower,HIGH);
   digitalWrite(BumpGND,LOW);
-  
+
   Serial.begin(9600);
   pinMode(IN1, OUTPUT);
   pinMode(IN2, OUTPUT);
@@ -89,7 +89,7 @@
   digitalWrite(MotorGND, LOW);
   pinMode(tachA,INPUT);
   pinMode(tachB,INPUT);
-  
+
   LeftWhite = 0;
   MiddleWhite = 0;
   RightWhite = 0;
@@ -103,7 +103,7 @@
   int ThreshL = 0;
   int ThreshM = 0;
   int ThreshR = 0;
-  
+
   pinMode(tachA, INPUT_PULLUP);
   attachInterrupt(digitalPinToInterrupt(tachA),countA,RISING);
   pinMode(tachB, INPUT_PULLUP);
@@ -120,7 +120,7 @@ void forward(){
     digitalWrite(IN2, HIGH);
     digitalWrite(IN3, LOW);
     digitalWrite(IN4, HIGH);
-    Serial.println("Forward");
+    //Serial.println("Forward");
     comparison();
   }
   else{}
@@ -172,12 +172,12 @@ void stop() {
 
 void comparison(){
   if((DifferenceA > -750) && (DifferenceA > -750)){
-    /*Serial.print("Difference is: ");
+    Serial.print("Difference is: ");
     Serial.println((DifferenceA - DifferenceB));
     Serial.print("This is MOTORA: ");
     Serial.println(MOTORA);
     Serial.print("This is MOTORB: ");
-    Serial.println(MOTORB);*/
+    Serial.println(MOTORB);
     if((DifferenceA > DifferenceB) && (MOTORB >= 150)){
       MOTORB--;
     }
@@ -192,11 +192,11 @@ void comparison(){
         MOTORB == 0;
       }  
     else{
-      //Serial.println("SYNCHED");
+      Serial.println("SYNCHED");
       }
       }
       else{
-        
+
       }
 }
 
