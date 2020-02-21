@@ -49,10 +49,10 @@
   float ThreshR;
 
   int Distance = 0;
-  int BackDistance = 5;
-  int ForwardDistance = 5;
-  int RightDistance = 3;
-  int LeftDistance = 3;
+  int BackDistance = 100;
+  int ForwardDistance = 100;
+  int RightDistance = 100;
+  int LeftDistance = 100;
 
   float voltage = 0;
   float threshold = 5.8; //Threshold depending on the battery to determine low battery SoC
@@ -126,8 +126,6 @@ void forward(){
     Serial.println("Forward");
     comparison();
     Distance--;
-    //Serial.print("Distance for travel ");
-    //Serial.println(Distance);
   }
 }
 void back() {
@@ -140,8 +138,6 @@ void back() {
     digitalWrite(IN4, LOW);
     Serial.println("Back");
     Distance--;
-    //Serial.print("Distance for travel ");
-    //Serial.println(Distance);
   }
 }
 
@@ -155,8 +151,6 @@ void right() {
     digitalWrite(IN4, LOW);
     Serial.println("Right");
     Distance--;
-    //Serial.print("Distance for travel ");
-    //Serial.println(Distance);
   }
 }
 
@@ -170,8 +164,6 @@ void left() {
     digitalWrite(IN4, HIGH);
     Serial.println("Left");
     Distance--;
-    //Serial.print("Distance for travel ");
-    //Serial.println(Distance);
   }
 }
 
@@ -183,12 +175,6 @@ void stop() {
 
 void comparison(){
   if((DifferenceA > -750) && (DifferenceA > -750)){
-    /*Serial.print("Difference is: ");
-    Serial.println((DifferenceA - DifferenceB));
-    Serial.print("This is MOTORA: ");
-    Serial.println(MOTORA);
-    Serial.print("This is MOTORB: ");
-    Serial.println(MOTORB);*/
     if((DifferenceA > DifferenceB) && (MOTORB >= 150)){
       MOTORB--;
     }
@@ -206,29 +192,21 @@ void comparison(){
       Serial.println("SYNCHED");
       }
       }
-      else{
-
-      }
+      else{}
 }
 
 void countA() {
   tachATime = micros();
   DifferenceA = tachATime - tachATime1;
   tachATime1 = tachATime;
-  //Serial.print("DifferenceA :");
-  //Serial.println(DifferenceA); 
 }
 
 void countB() {
   tachBTime = micros();
   DifferenceB = tachBTime - tachBTime1;
   tachBTime1 = tachBTime;
-  //Serial.print("DifferenceB :");
-  //Serial.println(DifferenceB);  
 }
 void VoltageRead(){
-    /*Serial.print("Read Voltage:"); //Prints to monitor
-    Serial.println(ReadVoltage); // Only needed for testing*/
     voltage = ((analogRead(v_read)*(7.5/1023))- Adjustment);
     Serial.print("Voltage:"); //Prints to monitor
     Serial.println(voltage);
@@ -245,11 +223,10 @@ void obstacleavoidance(){
   VoltageRead();
   Distance = ForwardDistance;
   forward();
-  delay(1000);
-     
+  stop();
+  delay(10000);
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
       obstacleavoidance();
 }
