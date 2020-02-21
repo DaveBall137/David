@@ -126,8 +126,8 @@ void forward(){
     Serial.println("Forward");
     comparison();
     Distance--;
-    Serial.print("Distance for travel ");
-    Serial.println(Distance);
+    //Serial.print("Distance for travel ");
+    //Serial.println(Distance);
   }
 }
 void back() {
@@ -140,8 +140,8 @@ void back() {
     digitalWrite(IN4, LOW);
     Serial.println("Back");
     Distance--;
-    Serial.print("Distance for travel ");
-    Serial.println(Distance);
+    //Serial.print("Distance for travel ");
+    //Serial.println(Distance);
   }
 }
 
@@ -155,8 +155,8 @@ void right() {
     digitalWrite(IN4, LOW);
     Serial.println("Right");
     Distance--;
-    Serial.print("Distance for travel ");
-    Serial.println(Distance);
+    //Serial.print("Distance for travel ");
+    //Serial.println(Distance);
   }
 }
 
@@ -170,8 +170,8 @@ void left() {
     digitalWrite(IN4, HIGH);
     Serial.println("Left");
     Distance--;
-    Serial.print("Distance for travel ");
-    Serial.println(Distance);
+    //Serial.print("Distance for travel ");
+    //Serial.println(Distance);
   }
 }
 
