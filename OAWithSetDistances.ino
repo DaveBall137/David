@@ -51,8 +51,8 @@
   int Distance = 0;
   int BackDistance = 5;
   int ForwardDistance = 5;
-  int RightDistance = 5;
-  int LeftDistance = 5;
+  int RightDistance = 3;
+  int LeftDistance = 3;
 
   void setup() {
   // put your setup code here, to run once:
