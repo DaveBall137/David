@@ -120,7 +120,7 @@ void forward(){
     digitalWrite(IN2, HIGH);
     digitalWrite(IN3, LOW);
     digitalWrite(IN4, HIGH);
-    //Serial.println("Forward");
+    Serial.println("Forward");
     comparison();
   }
   else{}
@@ -172,12 +172,12 @@ void stop() {
 
 void comparison(){
   if((DifferenceA > -750) && (DifferenceA > -750)){
-    Serial.print("Difference is: ");
+    /*Serial.print("Difference is: ");
     Serial.println((DifferenceA - DifferenceB));
     Serial.print("This is MOTORA: ");
     Serial.println(MOTORA);
     Serial.print("This is MOTORB: ");
-    Serial.println(MOTORB);
+    Serial.println(MOTORB);*/
     if((DifferenceA > DifferenceB) && (MOTORB >= 150)){
       MOTORB--;
     }
@@ -192,7 +192,7 @@ void comparison(){
         MOTORB == 0;
       }  
     else{
-      Serial.println("SYNCHED");
+      //Serial.println("SYNCHED");
       }
       }
       else{
