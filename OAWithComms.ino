@@ -271,7 +271,7 @@ void obstacleavoidance(){
     }
     else if((digitalRead(FR)==LOW) && (digitalRead(FL)==HIGH)){
       Serial.println("Front Left Active - STOP");
-      //HC12.println("Front Left Active - STOP");
+      //HC12.println("Front Left Active - STOP"); // Commented out to reduce sent information
       //communication();
       stop();
       Distance = RightDistance;
