@@ -58,7 +58,7 @@
   int LeftDistance = 3;
 
   float voltage = 0;
-  float threshold = 5.8; //Threshold depending on the battery to determine low battery SoC
+  float threshold = 5.9; //Threshold depending on the battery to determine low battery SoC
   float v_read = A3;
   float Adjustment = 0.110;
 
@@ -207,7 +207,7 @@ void comparison(){
         MOTORB == 0;
       }  
     else{
-      Serial.println("SYNCHED");
+      //Serial.println("SYNCHED");
       }
       }
       else{
@@ -255,32 +255,32 @@ void obstacleavoidance(){
   VoltageRead();
   if((digitalRead(FR)==HIGH) && (digitalRead(FL)==HIGH)){
     Serial.println("FRONT DETECT");
-    HC12.println("FRONT DETECT");
-    communication();
+    //HC12.println("FRONT DETECT");
+    //communication();
     stop();
     Distance = RightDistance;
     right();
     }
     else if((digitalRead(FR)==HIGH) && (digitalRead(FL)==LOW)){
       Serial.println("Front Right Active - STOP");
-      HC12.println("Front Right Active - STOP");
-      communication();
+      //HC12.println("Front Right Active - STOP");
+      //communication();
       stop();
       Distance = LeftDistance;
       left(); 
     }
     else if((digitalRead(FR)==LOW) && (digitalRead(FL)==HIGH)){
       Serial.println("Front Left Active - STOP");
-      HC12.println("Front Left Active - STOP");
-      communication();
+      //HC12.println("Front Left Active - STOP");
+      //communication();
       stop();
       Distance = RightDistance;
       right();
     }
     else if((digitalRead(FRBump)==HIGH) && (digitalRead(FLBump)==HIGH)){
       Serial.println("FRONT Bumpers DETECT");
-      HC12.println("FRONT Bumpers DETECT");
-      communication();
+      //HC12.println("FRONT Bumpers DETECT");
+      //communication();
       stop();
       Distance = BackDistance;
       back();
@@ -289,8 +289,8 @@ void obstacleavoidance(){
     }
     else if((digitalRead(FRBump)==HIGH) && (digitalRead(FLBump)==LOW)){
       Serial.println("Front Right Bumper - STOP");
-      HC12.println("Front Right Bumper - STOP");
-      communication();
+      //HC12.println("Front Right Bumper - STOP");
+      //communication();
       stop();
       Distance = BackDistance;
       back();
@@ -299,8 +299,8 @@ void obstacleavoidance(){
     }
     else if((digitalRead(FRBump)==LOW) && (digitalRead(FLBump)==HIGH)){
       Serial.println("Front Left Bumper - STOP");
-      HC12.println("Front Left Bumper - STOP");
-      communication();
+      //HC12.println("Front Left Bumper - STOP");
+      //communication();
       stop();
       Distance = BackDistance;
       back();
