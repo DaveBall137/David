@@ -20,6 +20,8 @@
   int ENB = 11; //Setting pin 3 as a PWM for B changed to 11
   int MOTORA;
   int MOTORB;
+  int BackMOTORA = 200;
+  int BackMOTORB = 185;
   int MotorGND = 44;
 
   int tachA = 2; // changed from 10 -> 2
@@ -125,8 +127,8 @@
   attachInterrupt(digitalPinToInterrupt(tachA),countA,RISING);
   pinMode(tachB, INPUT_PULLUP);
   attachInterrupt(digitalPinToInterrupt(tachB),countB,RISING);
-  MOTORA = 200;
-  MOTORB = 185;
+  MOTORA = 200; 
+  MOTORB = 185; 
   }
 
 void forward(){
@@ -153,8 +155,8 @@ void back() {
   //And transmit the new location
   Length = -((Distance * 0.22) - 1.45); // this will be the distance multiplied by the variable this will be negative
   while(Distance > 0){
-    analogWrite(ENA, MOTORA);
-    analogWrite(ENB, MOTORB);
+    analogWrite(ENA, BackMOTORA);
+    analogWrite(ENB, BackMOTORB);
     digitalWrite(IN1, HIGH);
     digitalWrite(IN2, LOW);
     digitalWrite(IN3, HIGH);
@@ -171,8 +173,8 @@ void right() {
   //And transmit the new location
   theta = -((Distance * 0.0453) - 0.0506); //angle in radians +Ve
   while(Distance > 0){
-    analogWrite(ENA, MOTORA);
-    analogWrite(ENB, MOTORB);
+    analogWrite(ENA, BackMOTORA);
+    analogWrite(ENB, BackMOTORB);
     digitalWrite(IN1, LOW);
     digitalWrite(IN2, HIGH);
     digitalWrite(IN3, HIGH);
@@ -189,8 +191,8 @@ void left() {
   //And transmit the new location
   theta = ((Distance * 0.038) -0.1724); //angle in radians -Ve
   while(Distance > 0){
-    analogWrite(ENA, MOTORA);
-    analogWrite(ENB, MOTORB);
+    analogWrite(ENA, BackMOTORA);
+    analogWrite(ENB, BackMOTORB);
     digitalWrite(IN1, HIGH);
     digitalWrite(IN2, LOW);
     digitalWrite(IN3, LOW);
@@ -361,17 +363,17 @@ void location(){
   }
   changex = (Length * cos(Direction)); //change in x coordinate of location
   changey = (Length * sin(Direction)); //change y coordinate of location
-  x = x + changex; // x coordinate of current location
-  y = y + changey; // y coordinate of current location
+  x = x + changex; // x coordinate of current location  in cm
+  y = y + changey; // y coordinate of current location  in cm 
   Length = 0; //reset the values  // hypotenuse length or the location to be calculated from
   theta = 0; //reset the values  //angle of turn to create new direction of facing
   angle = Direction * 57.2957795131;
   HC12.print("X position: ");
-  HC12.println(x);
+  HC12.println(x); // displays in cm
   HC12.print("Y position: ");
-  HC12.println(y);
+  HC12.println(y); // displays in cm
   HC12.print("Direction of facing: ");
-  HC12.println(angle);
+  HC12.println(angle); // displays in degrees
   communication();
   
 }
