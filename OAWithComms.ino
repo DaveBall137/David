@@ -116,7 +116,7 @@
   pinMode(tachB, INPUT_PULLUP);
   attachInterrupt(digitalPinToInterrupt(tachB),countB,RISING);
   MOTORA = 200;
-  MOTORB = 185;
+  MOTORB = 185; // tested at this speed, if the speed was too high it can be tested again
   }
 
 void forward(){
