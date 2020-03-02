@@ -61,7 +61,7 @@
   float threshold = 6.20; //Threshold depending on the battery to determine low battery SoC
   float v_read = A3;
   float Adjustment = -0.04;//-0.110;
-  float Chargedthreshold = 7.01; //Threshold for the charger to reach before it disconnects 
+  float Chargedthreshold = 7.10; //Threshold for the charger to reach before it disconnects 
 
   double theta = 0; //angle of turn to create new direction of facing
   double Direction = 1.5708; // Direction of facing value = 90 degrees
