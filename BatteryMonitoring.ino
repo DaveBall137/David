@@ -1,7 +1,7 @@
 float voltage = 0;
-float threshold = 5.9; //Threshold depending on the battery to determine low battery SoC
+float threshold = 6.2; //Threshold depending on the battery to determine low battery SoC
 float v_read = A3;
-float Adjustment = 0.110;
+float Adjustment = -0.09;
 
 void setup() {
   // put your setup code here, to run once:
