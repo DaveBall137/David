@@ -60,7 +60,17 @@
   float voltage = 0;
   float threshold = 6.2; //Threshold depending on the battery to determine low battery SoC
   float v_read = A3;
-  float Adjustment = -0.04; //.110;
+  float Adjustment = -0.090;
+  float voltage1 =0;
+  float voltage2 =0;
+  float voltage3 =0;
+  float voltage4 =0;
+  float voltage5 =0;
+  float voltage6 =0;
+  float voltage7 =0;
+  float voltage8 =0;
+  float voltage9 =0;
+  float voltage10 =0;
 
   void setup() {
   // put your setup code here, to run once:
@@ -233,7 +243,30 @@ void countB() {
 void VoltageRead(){
     /*Serial.print("Read Voltage:"); //Prints to monitor
     Serial.println(ReadVoltage); // Only needed for testing*/
-    voltage = ((analogRead(v_read)*(7.5/1023))- Adjustment);
+    voltage1 =((analogRead(v_read)*(7.5/1023))- Adjustment);
+    delay(2);
+    voltage2 =((analogRead(v_read)*(7.5/1023))- Adjustment);
+    delay(2);
+    voltage3 =((analogRead(v_read)*(7.5/1023))- Adjustment);
+    delay(2);
+    voltage4 =((analogRead(v_read)*(7.5/1023))- Adjustment);
+    delay(2);
+    voltage5 =((analogRead(v_read)*(7.5/1023))- Adjustment);
+    delay(2);
+    voltage6 =((analogRead(v_read)*(7.5/1023))- Adjustment);
+    delay(2);
+    voltage7 =((analogRead(v_read)*(7.5/1023))- Adjustment);
+    delay(2);
+    voltage8 =((analogRead(v_read)*(7.5/1023))- Adjustment);
+    delay(2);
+    voltage9 =((analogRead(v_read)*(7.5/1023))- Adjustment);
+    delay(2);
+    voltage10 =((analogRead(v_read)*(7.5/1023))- Adjustment);
+    delay(2);
+    voltage = ((voltage1 + voltage2 + voltage3 + voltage4 + voltage5 + voltage6 + voltage7 + voltage8 + voltage9 + voltage10)/10);
+    //voltage = ((analogRead(v_read)*(7.5/1023))- Adjustment);
+
+    
     //voltage = analogRead(v_read);
     //Serial.print("Voltage:"); //Prints to monitor
     //Serial.println(voltage);
@@ -312,6 +345,7 @@ void obstacleavoidance(){
       Distance = ForwardDistance;
       forward();
       }
+      
 }
 
 void communication(){
