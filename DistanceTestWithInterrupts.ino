@@ -215,10 +215,10 @@ void countB() {
 }
 void VoltageRead(){
     voltage = ((analogRead(v_read)*(7.5/1023))- Adjustment);
-    Serial.print("Voltage:"); //Prints to monitor
+    Serial.print("Voltage: "); //Prints to monitor
     Serial.println(voltage);
   while(voltage < threshold){
-      Serial.print("Voltage is too low:"); //Prints to monitor
+      Serial.print("Voltage is too low: "); //Prints to monitor
       Serial.println(voltage);
       stop();
       Serial.print("NEED TO RETURN HOME");
