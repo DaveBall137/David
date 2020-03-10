@@ -1,3 +1,6 @@
+  #include <SoftwareSerial.h>
+  SoftwareSerial HC12(12,13); //12,13 for Arduino Mega Tx, Rx
+  
   int FR = 50; //setting pin 50 to the Front Right sensor
   int FL = 51; //setting pin 51 to the Front Left sensor
   int BL = 52; //setting pin 52 to the Back Left sensor
@@ -80,8 +83,10 @@
   digitalWrite(FRBumpPower,HIGH);
   digitalWrite(FLBumpPower,HIGH);
   digitalWrite(BumpGND,LOW);
+ 
 
   Serial.begin(9600);
+  HC12.begin(9600);
   pinMode(IN1, OUTPUT);
   pinMode(IN2, OUTPUT);
   pinMode(IN3, OUTPUT);
@@ -127,7 +132,11 @@ void forward(){
     comparison();
     Serial.print("Distance: ");
     Serial.println(Distance);
+    HC12.print("Distance: ");
+    HC12.println(Distance);
+    communication();
   }
+  Distance = 0;
 }
 void back() {
   while(Distance > 0){
@@ -140,7 +149,11 @@ void back() {
     Serial.println("Back");
     Serial.print("Distance: ");
     Serial.println(Distance);
+    HC12.print("Distance: ");
+    HC12.println(Distance);
+    communication();
   }
+  Distance = 0;
 }
 
 void right() {
@@ -154,7 +167,11 @@ void right() {
     Serial.println("Right");
     Serial.print("Distance: ");
     Serial.println(Distance);
+    HC12.print("Distance: ");
+    HC12.println(Distance);
+    communication();
   }
+  Distance = 0;
 }
 
 void left() {
@@ -168,8 +185,11 @@ void left() {
     Serial.println("Left");
     Serial.print("Distance: ");
     Serial.println(Distance);
-    
+    HC12.print("Distance: ");
+    HC12.println(Distance);
+    communication();
   }
+  Distance = 0;
 }
 
 void stop() {
@@ -200,6 +220,16 @@ void comparison(){
       else{}
 }
 
+void communication(){
+  if(HC12.available()){ // if HC-12 module has data
+    Serial.write(HC12.read()); // sends data from HC12 to Serial monitor
+  }
+  
+  if(Serial.available()){ // if Serial monitor has data
+    HC12.write(Serial.read()); // sends data from arduino to HC12 module which will transmit
+  }
+}
+
 void countA() {
   tachATime = micros();
   DifferenceA = tachATime - tachATime1;
@@ -228,8 +258,8 @@ void VoltageRead(){
 
 void obstacleavoidance(){
   VoltageRead();
-  Distance = LeftDistance;
-  left();
+  Distance = ForwardDistance;
+  forward();
   stop();
   delay(20000);
 }
