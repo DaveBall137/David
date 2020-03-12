@@ -58,7 +58,7 @@
   int LeftDistance = 3;
 
   float voltage = 0;
-  float threshold = 5.90; //Threshold depending on the battery to determine low battery SoC
+  float threshold = 6.2; //Threshold depending on the battery to determine low battery SoC
   float v_read = A3;
   float Adjustment = 0.110;
   float Chargedthreshold = 7.01; //Threshold for the charger to reach before it disconnects 
@@ -142,9 +142,9 @@ void forward(){
     digitalWrite(IN4, HIGH);
     Serial.println("Forward");
     comparison();
-    Distance--;
     //Serial.print("Distance for travel ");
     //Serial.println(Distance);
+    Distance--;
   }
 }
 
@@ -160,9 +160,9 @@ void back() {
     digitalWrite(IN3, HIGH);
     digitalWrite(IN4, LOW);
     Serial.println("Back");
-    Distance--;
     //Serial.print("Distance for travel ");
     //Serial.println(Distance);
+    Distance--;
   }
 }
 
@@ -178,9 +178,9 @@ void right() {
     digitalWrite(IN3, HIGH);
     digitalWrite(IN4, LOW);
     Serial.println("Right");
-    Distance--;
     //Serial.print("Distance for travel ");
     //Serial.println(Distance);
+    Distance--;
   }
 }
 
@@ -196,9 +196,9 @@ void left() {
     digitalWrite(IN3, LOW);
     digitalWrite(IN4, HIGH);
     Serial.println("Left");
-    Distance--;
     //Serial.print("Distance for travel ");
     //Serial.println(Distance);
+    Distance--;
   }
 }
 
@@ -366,22 +366,36 @@ void location(){
   Length = 0; //reset the values  // hypotenuse length or the location to be calculated from
   theta = 0; //reset the values  //angle of turn to create new direction of facing
   angle = Direction * 57.2957795131;
-  HC12.print("X position: ");
+  /*HC12.print("X position: ");
   HC12.println(x);
   HC12.print("Y position: ");
   HC12.println(y);
   HC12.print("Direction of facing: ");
-  HC12.println(angle);
+  HC12.println(angle);*/
   communication();
   
 }
 
 void returnhome(){
-  Serial.print("Returning home");
-  HC12.print("Returning home"); //Prints to HC-12 Module
+  Serial.println("Returning home");
+  HC12.println("Returning home"); //Prints to HC-12 Module
   //Will have location checking and attempting to reach (0,0), once close it will start the docking routine which will include the white line docking
-  digitalWrite(PWL, HIGH); //turns on white line sensors
-  whitelinedocking();
+  
+  
+  voltage = ((analogRead(v_read)*(7.5/1023))- Adjustment);
+    //Serial.print("Voltage:"); //Prints to monitor
+    //Serial.println(voltage);
+    HC12.print("Voltage:"); //Prints to HC-12 Module
+    HC12.println(voltage);//Prints to HC-12 Module
+  if(voltage < threshold){
+      Serial.print("Voltage is too low:"); //Prints to monitor
+      Serial.println(voltage);
+      HC12.print("Voltage is too low:"); //Prints to HC-12 Module
+      HC12.println(voltage);//Prints to HC-12 Module
+      stop();
+      voltage = ((analogRead(v_read)*(7.5/1023))- Adjustment);
+      whitelinedocking();
+    }
     
   
 }
@@ -396,6 +410,7 @@ void dock(){
 void whitelinedocking(){
   Serial.print("White Line Docking");
   HC12.print("White Line Docking"); //Prints to HC-12 Module
+  digitalWrite(PWL, HIGH); //turns on white line sensors
   // while white box hasnt been found stay in this routine
   //return once stopped
   stop();
@@ -407,6 +422,7 @@ void charge(){
   Serial.print("Charging");
   HC12.print("Charging"); //Prints to HC-12 Module
   voltage = ((analogRead(v_read)*(7.5/1023))- Adjustment);
+  digitalWrite(PWL, LOW); //turns on white line sensors
   while(voltage < Chargedthreshold){
       Serial.print("Charging. Currently at: "); //Prints to monitor
       Serial.print(voltage);
