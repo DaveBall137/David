@@ -266,7 +266,19 @@ void VoltageRead(){
       HC12.println(voltage);//Prints to HC-12 Module
       stop();
       voltage = ((analogRead(v_read)*(7.5/1023))- Adjustment);
-      returnhome();
+      //Serial.print("Voltage:"); //Prints to monitor
+      //Serial.println(voltage);
+      HC12.print("Voltage:"); //Prints to HC-12 Module
+      HC12.println(voltage);//Prints to HC-12 Module
+      if(voltage < threshold){
+        Serial.print("Voltage is too low:"); //Prints to monitor
+        Serial.println(voltage);
+        HC12.print("Voltage is too low:"); //Prints to HC-12 Module
+        HC12.println(voltage);//Prints to HC-12 Module
+        stop();
+        voltage = ((analogRead(v_read)*(7.5/1023))- Adjustment);
+        returnhome();
+    }
     }
 }
 
@@ -380,23 +392,7 @@ void returnhome(){
   Serial.println("Returning home");
   HC12.println("Returning home"); //Prints to HC-12 Module
   //Will have location checking and attempting to reach (0,0), once close it will start the docking routine which will include the white line docking
-  
-  
-  voltage = ((analogRead(v_read)*(7.5/1023))- Adjustment);
-    //Serial.print("Voltage:"); //Prints to monitor
-    //Serial.println(voltage);
-    HC12.print("Voltage:"); //Prints to HC-12 Module
-    HC12.println(voltage);//Prints to HC-12 Module
-  if(voltage < threshold){
-      Serial.print("Voltage is too low:"); //Prints to monitor
-      Serial.println(voltage);
-      HC12.print("Voltage is too low:"); //Prints to HC-12 Module
-      HC12.println(voltage);//Prints to HC-12 Module
-      stop();
-      voltage = ((analogRead(v_read)*(7.5/1023))- Adjustment);
-      whitelinedocking();
-    }
-    
+    whitelinedocking();
   
 }
 
